@@ -1,10 +1,10 @@
-import ProductCard from "./Card";
-import { useState, useEffect, useContext } from "react";
-import './Main.css'
-import './CardList.css';
-import kimia from "./../images/kimia.jpeg"
-import Pagination from "./Pagination";
-import { addtocartcontext } from './../context/Addtocartcontext';
+import './TotalAmount.css'
+import { useDispatch, useSelector } from 'react-redux';
+import kimia from './../images/kimia.jpeg'
+import { useEffect } from 'react';
+import { calculatetotal } from './reducers/addToCart.reducer'
+import { Link } from 'react-router-dom';
+
 
 const productData = [{
     id: 1,
@@ -176,65 +176,78 @@ const productData = [{
     mrp: "500",
     weight: "500g",
 },]
+const TotalAmount = () => {
 
 
-const ProductList = ({ cartlength }) => {
-
-    const [dat, setdat] = useState([]);
-
-
-    function call(pageno) {
-
-        const datas = productData.filter(produ => produ.page === pageno);
-        setdat(datas)
+    const count = useSelector((state) => state.addToCart.value);
+    const totalamount = useSelector((state) => state.addToCart.total);
 
 
-    }
+
+    const dispatch = useDispatch()
+
+    
 
 
+    const calculateTotal = () => {
+        let total = 0;
+        let mrptotal = 0;
+        for (const proid in count) {
+            const product = productData.find((item) => item.id === parseInt(proid));
+            if (product) {
+                total += product.rate * count[proid];
+                mrptotal += product.mrp * count[proid];
+            }
+        }
+        console.log(total);
+        return [total, mrptotal];
+
+    };
+
+    const [total, mrptotal] = calculateTotal();
     useEffect(() => {
-        call(1);
+        dispatch(calculatetotal(total));
+    }, [total, dispatch])
 
-
-    }, [])
-
-
-
-
-
-
-    const array1 = productData[0];
-
-
-    const addtocartusecontext = useContext(addtocartcontext);
-    const { addtocart, setaddtocart } = addtocartusecontext;
-
-    console.log(addtocart);
-
-    useEffect(() => {
-        cartlength(Object.keys(addtocart).length);
-    }, [addtocart, cartlength]);
 
 
     return (
         <>
-            {/* <Header props={addtocart.length}/> */}
-            <div className='card-container'>
-                {
-                    dat.map(prod => (
-
-                        <ProductCard pro={prod}  />
-                    ))
-                }
-
+            
+                
+                
+                <div class="mb-2 flex justify-between">
+                            <p class="text-gray-700">MRP Total</p>
+                            <p class="text-gray-700">{mrptotal}</p>
+                        </div>
 
 
-            </div>
-            <div>
-                <Pagination part1={call} part2={array1} />
-            </div>
+                        <div class="mb-2 flex justify-between">
+                            <p class="text-gray-700">Product Discount</p>
+                            <p class="text-gray-700">₹{mrptotal - total}</p>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <p class="text-gray-700">Shipping</p>
+                            <p class="text-gray-700">FREE</p>
+                        </div>
+
+
+                        <hr class="my-4" />
+
+                        <div class="flex justify-between">
+                            <p class="text-lg font-bold">Total</p>
+                            <div class="">
+                                <p class="mb-1 text-lg font-bold">₹{totalamount} INR</p>
+                            </div>
+                        </div>
+
+                       <Link to="/hrahim/checkout"> <button class="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">Check out</button>
+                       </Link>
+
+          
         </>
-    );
+    )
 }
 
-export default ProductList;
+export default TotalAmount;

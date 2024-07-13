@@ -3,13 +3,23 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import App from './components/App.js';
+import { Provider } from 'react-redux';
+import store from './components/store/store.js';
+import Addtocartprovider from "./context/Addtocartcontext.js";
 
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
+
+  <Provider store={store}>
+        <Addtocartprovider>
     <App/>
+    </Addtocartprovider>
+
+       </Provider>
+    
   // </React.StrictMode>
 );
 
