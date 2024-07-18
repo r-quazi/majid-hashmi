@@ -24,8 +24,8 @@
   }
   /* Image styling */
   .images {
-    width: 97%;
-    max-height: 500px; /* Adjust the maximum height as needed */
+    width: 94%;
+    max-height: 350px; /* Adjust the maximum height as needed */
     height: auto;
     border-radius: 10px;
     outline: none;
@@ -70,11 +70,11 @@
   }
   
   .slick-prev {
-    left: 22px; 
+    left: 4%; 
   }
   
   .slick-next {
-    right: 22px;
+    right: 4%;
   }
   
   /* Dot styling */
@@ -127,5 +127,6 @@
 
   font-size: 25px;
 }
+
     
   }

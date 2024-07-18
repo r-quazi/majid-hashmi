@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addtocartcontext } from './../context/Addtocartcontext'
 import SearchItems from './SearchItems.js';
 import UserData from './UserData.js';
-import {axiosInstance} from './backend/axiosInstance';
+import { axiosInstance } from './backend/axiosInstance';
 import { setToken, userdata } from "./reducers/user.reducer";
 import { useNavigate } from 'react-router-dom';
 
@@ -173,7 +173,7 @@ const Header = ({ props }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const {user} = useSelector((state)=>state.user);
+    const { user } = useSelector((state) => state.user);
 
     // useEffect(() => {
 
@@ -184,18 +184,18 @@ const Header = ({ props }) => {
 
     // }, [])
 
-   
+
     // const user = useSelector((state) => state.addToCart.loginobj); to use google auth
 
     const addtocartusecontext = useContext(addtocartcontext);
     const { addtocart, setaddtocart } = addtocartusecontext;
 
-    const [isVisible, setVisible] = useState(false);
-    
-    const bodyRef = document.querySelector("body");
-    
 
-    
+
+    const bodyRef = document.querySelector("body");
+
+
+
 
 
     const searchit = useRef();
@@ -203,7 +203,7 @@ const Header = ({ props }) => {
     const searchit2 = useRef();
     const noresult2 = useRef();
     const searchitul = useRef();
-    
+
 
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [filteredProducts2, setFilteredProducts2] = useState([]);
@@ -261,7 +261,7 @@ const Header = ({ props }) => {
 
         if (e.key === 'Enter') {
             console.log(filteredProducts);
-            
+
 
         }
     }
@@ -269,43 +269,43 @@ const Header = ({ props }) => {
 
     const count = useSelector((state) => state.addToCart.value.filter(item => item > 0).length);
 
-    const getcurrentuser = async ()=>{
-        try{
-              const user= await axiosInstance.get('/user/currentuserlogin',)
-                console.log(user.data.message);
-                const val =user.data.message;
-                dispatch(userdata(val));
-                
-                
-               
-        
-            }
-            catch(err){
-         
-                 console.log(err);
-                }
-            }
-    
-    useEffect( ()=>{
-        if(localStorage.getItem('token')){
-        getcurrentuser();
-        
-        
-        
-    }
-   
-       
-       
-    },[])
+    const getcurrentuser = async () => {
+        try {
+            const user = await axiosInstance.get('/user/currentuserlogin',)
+            console.log(user.data.message);
+            const val = user.data.message;
+            dispatch(userdata(val));
 
-    
+
+
+
+        }
+        catch (err) {
+
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            getcurrentuser();
+
+
+
+        }
+
+
+
+    }, [])
+
+
     return (
         <>
 
             <div className="header">
 
                 <div className="header-wrap">
-                    <Link to="/hrahim"> <h1 className='heading-main'>H.RAHIM&CO.</h1></Link>
+                    <Link to="/hrahim/"> <h1 className='heading-main'>H.RAHIM&CO.</h1></Link>
 
                 </div>
                 <div className='header-mid-part'>
@@ -335,25 +335,32 @@ const Header = ({ props }) => {
 
 
                 </div>
-<Link to="/hrahim/my-orders"><p>My Orders</p></Link>
-                <div className={`${user ? "yes" : ""}`}>
-                   <div className='main_login1'> <Link to="/hrahim/login"> <div className="login_div"><h4 className="login" >Login/register</h4></div></Link></div>
 
-                   <div className='main-login2'> <Link to="/hrahim/login"> <div className="login_div2"><i class="fa-regular fa-user" ></i></div></Link></div>
-                </div>
-                {user ? <UserData /> : null}
-                <div className='cart-div'>
-                    <Link to="/hrahim/addtocart">
+                <div className='icons_div'>
+                    {user ?
+                        <Link to="/hrahim/my-orders"><p className='my_orders'>My Orders</p></Link> : null}
+                    <div className={`${user ? "yes" : ""}`}>
+                        <div className='main_login1'> <Link to="/hrahim/login"> <div className="login_div"><h4 className="login" >Login/register</h4></div></Link></div>
 
-                        <h1 className='cart-number'>{count}</h1>
+                        <div className='main-login2'> <Link to="/hrahim/login"> <div className="login_div2"><i class="fa-regular fa-user" ></i></div></Link></div>
+                    </div>
+                    {user ? <UserData /> : null}
+                    <div className='cart-div'>
+                        <Link to="/hrahim/addtocart">
 
-                        <i className="fa-solid fa-cart-shopping"></i>
-                    </Link>
+                            <h1 className='cart-number'>{count}</h1>
+                        </Link>
+                        <Link to="/hrahim/addtocart"><i className="fa-solid fa-cart-shopping"></i></Link>
+
+
+
+                    </div>
+
                 </div>
 
 
             </div>
-            {isVisible ? user ? null : <Login/> : null}
+
             <div className='header2'>
                 <div className='search-bar2-main-div'> <input className='search-bar2' type="text" placeholder='Search for products' onChange={searchfield2} />
                     <i class="fa-solid fa-magnifying-glass searchIcon2"></i>

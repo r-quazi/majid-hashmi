@@ -82,7 +82,7 @@ const App = () => {
 
     return (
 
-        <BrowserRouter basename="/hrahim">
+        <BrowserRouter >
             <Routes>
                 <Route path="/hrahim/admin/orders" element={
                         <>
