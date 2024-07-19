@@ -217,10 +217,11 @@ const Addtocart = () => {
 
         setCartData({ items, totalPrice });
         console.log({ items, totalPrice });
-        dispatch(orderdata(cartData));
+        // dispatch(orderdata(cartData));
+        
 
         dispatch(orderdata({
-            order: cartData, // assuming no orders for now, you can update this as needed
+            order: { items, totalPrice }, // assuming no orders for now, you can update this as needed
             orderuserdetails: {}
           }));
 
